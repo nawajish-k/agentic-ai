@@ -1,0 +1,139 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #0a0a0a;
+  color: #fff;
+}
+
+.container {
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+}
+
+.card {
+  width: 100%;
+  max-width: 500px;
+
+  text-align: center;
+
+  padding: 50px 35px;
+
+  border: 1px solid #242424;
+  border-radius: 14px;
+
+  background: #111;
+}
+
+/* Icon */
+
+.icon {
+  width: 45px;
+  height: 45px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto 20px;
+
+  border-radius: 10px;
+
+  background: #fff;
+  color: #000;
+
+  font-size: 22px;
+}
+
+/* Heading */
+
+h1 {
+  font-size: 28px;
+  font-weight: 600;
+
+  margin-bottom: 12px;
+}
+
+/* Description */
+
+.card > p {
+  color: #888;
+
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.card > p span {
+  color: #ddd;
+}
+
+/* Terminal */
+
+.terminal {
+  margin: 25px 0;
+
+  padding: 15px 18px;
+
+  border: 1px solid #292929;
+  border-radius: 8px;
+
+  background: #090909;
+
+  color: #aaa;
+
+  font-family: monospace;
+  font-size: 13px;
+
+  text-align: left;
+}
+
+.terminal div + div {
+  margin-top: 8px;
+}
+
+.terminal span {
+  color: #fff;
+}
+
+/* Information */
+
+.info {
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+
+  margin-top: 20px;
+}
+
+.info p {
+  color: #555;
+
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+  .card {
+    padding: 40px 25px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  .terminal {
+    font-size: 12px;
+  }
+}
