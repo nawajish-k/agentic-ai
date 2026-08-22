@@ -187,6 +187,11 @@ input::placeholder {
   transform: scale(0.92);
 }
 
+.send-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* Messages */
 
 .messages {

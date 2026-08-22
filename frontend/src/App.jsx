@@ -7,52 +7,48 @@ const App = () => {
 
   const [messages, setMessages] = useState([]);
 
+  const [loading, setLoading] = useState(false);
+
   const sendMessage = async () => {
-    if (input.trim() === "") return;
+    if (input.trim() === "" || loading) return;
+
+    setLoading(true);
 
     const userMessage = {
-    role: "user",
-    content: input,
+      role: "user",
+      content: input,
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+
+    setInput("");
+
+    try {
+      const response = await fetch("http://localhost:3000/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: input,
+        }),
+      });
+
+      const data = await response.json();
+
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: data.response,
+        },
+      ]);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
-
-  setMessages((prev) => [...prev, userMessage]);
-
-  setInput("");
-
-  try {
-    const response = await fetch("http://localhost:3000/api/chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        message: input,
-      }),
-    });
-
-    const data = await response.json();
-
-    setMessages((prev) => [
-      ...prev,
-      {
-        role: "assistant",
-        content: data.response,
-      },
-    ]);
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-  //   setMessages([
-  //     ...messages,
-  //     {
-  //       role: "user",
-  //       content: input,
-  //     },
-  //   ]);
-  //   setInput("");
-  // };
 
   return (
     <div className="container">
@@ -92,6 +88,13 @@ const App = () => {
                 </div>
               ))
             )}
+
+            {/* loading indicator */}
+            {loading && (
+              <div className="message assistant-message">
+                <p>Thinking...</p>
+              </div>
+            )}
           </div>
 
           <div className="chat-input">
@@ -101,7 +104,11 @@ const App = () => {
               onChange={(e) => setInput(e.target.value)}
               placeholder="Type here..."
             />
-            <button className="send-button" onClick={sendMessage}>
+            <button
+              className="send-button"
+              onClick={sendMessage}
+              disabled={loading}
+            >
               <RiArrowRightFill />
             </button>
           </div>
