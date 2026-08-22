@@ -1,7 +1,59 @@
 import React from "react";
 import { RiChatNewLine, RiArrowRightFill } from "@remixicon/react";
+import { useState } from "react";
 
 const App = () => {
+  const [input, setInput] = useState("");
+
+  const [messages, setMessages] = useState([]);
+
+  const sendMessage = async () => {
+    if (input.trim() === "") return;
+
+    const userMessage = {
+    role: "user",
+    content: input,
+  };
+
+  setMessages((prev) => [...prev, userMessage]);
+
+  setInput("");
+
+  try {
+    const response = await fetch("http://localhost:3000/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: input,
+      }),
+    });
+
+    const data = await response.json();
+
+    setMessages((prev) => [
+      ...prev,
+      {
+        role: "assistant",
+        content: data.response,
+      },
+    ]);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+  //   setMessages([
+  //     ...messages,
+  //     {
+  //       role: "user",
+  //       content: input,
+  //     },
+  //   ]);
+  //   setInput("");
+  // };
+
   return (
     <div className="container">
       {/* navbar */}
@@ -18,16 +70,39 @@ const App = () => {
       {/* chat */}
       <div className="chat-container">
         <div className="chat-content">
-          <div className="welcome">
-            <div className="welcome-icon">✦</div>
-            <h2>How can I help you?</h2>
-            <p>Ask anything and start a conversation with Agentic AI.</p>
+          <div className="messages">
+            {messages.length === 0 ? (
+              <div className="welcome">
+                <div className="welcome-icon">✦</div>
+                <h2>How can I help you?</h2>
+                <p>Ask anything and start a conversation with Agentic AI.</p>
+              </div>
+            ) : (
+              messages.map((message, index) => (
+                <div
+                  className={`message ${
+                    message.role === "user"
+                      ? "user-message"
+                      : "assistant-message"
+                  }`}
+                  key={index}
+                >
+                  {" "}
+                  <p>{message.content}</p>
+                </div>
+              ))
+            )}
           </div>
 
           <div className="chat-input">
-            <input type="text" placeholder="Type here..." />
-            <button className="send-button">
-              <RiArrowRightFill/>
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Type here..."
+            />
+            <button className="send-button" onClick={sendMessage}>
+              <RiArrowRightFill />
             </button>
           </div>
         </div>

@@ -1,10 +1,15 @@
+import express from "express";
+import cors from "cors";
 import { ChatMistralAI } from "@langchain/mistralai";
 import { config } from "dotenv";
 import { HumanMessage, AIMessage, SystemMessage, tool, createAgent } from "langchain"
-import rl from "readline/promises";
 import * as z from "zod";
 
 config();
+
+const app = express();
+app.use(cors());
+app.use(express.json());
 
 function getLatestInformation({ query }) {
     return ""
@@ -17,11 +22,6 @@ const getLatestInformationTool = tool(
     schema: z.object({
         query: z.string().describe("The topic to get the latest information about."),
     }),
-});
-
-const readline = rl.createInterface({
-    input: process.stdin,
-    output: process.stdout,
 });
 
 const model = new ChatMistralAI({
@@ -40,28 +40,44 @@ const messages = [
         `)
 ]
 
-while (true) {
+app.post("/api/chat", async (req, res) => {
 
-    const userPrompt = await readline.question("User: ")
+    try {
 
-    messages.push(new HumanMessage(userPrompt))
+        const { message } = req.body;
 
-    const stream = await agent.stream({
-        messages,
-    },
-        {
-            streamMode: "messages",
-        })
+        messages.push(
+            new HumanMessage(message)
+        );
 
-    let aiResponse = ""
+        const result = await agent.invoke({
+            messages,
+        });
 
-    for await (const [chunk] of stream) {
-        process.stdout.write(chunk.text)
-        aiResponse += chunk.text
+        const aiMessage = result.messages[result.messages.length - 1];
+
+        messages.push(
+            new AIMessage(aiMessage.content)
+        );
+
+        res.json({
+            response: aiMessage.content,
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            error: "Something went wrong"
+        });
+
     }
 
-    messages.push(new AIMessage(aiResponse))
+});
 
-    process.stdout.write("\n")
-}
+
+app.listen(3000, () => {
+    console.log("Backend running on http://localhost:3000");
+});
 
