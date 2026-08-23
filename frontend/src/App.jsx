@@ -1,6 +1,7 @@
 import React from "react";
 import { RiChatNewLine, RiArrowRightFill } from "@remixicon/react";
 import { useState } from "react";
+import ReactMarkdown from "react-markdown";
 
 const App = () => {
   const [input, setInput] = useState("");
@@ -84,7 +85,7 @@ const App = () => {
                   key={index}
                 >
                   {" "}
-                  <p>{message.content}</p>
+                  <ReactMarkdown>{message.content}</ReactMarkdown>
                 </div>
               ))
             )}
