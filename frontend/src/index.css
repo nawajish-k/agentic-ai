@@ -149,9 +149,10 @@ button:active {
   width: 100%;
   flex-shrink: 0;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   gap: 8px;
   padding: 8px;
+  box-sizing: border-box;
   border: 1px solid transparent;
   border-radius: 12px;
   background: #242424;
@@ -162,21 +163,42 @@ button:active {
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.06);
 }
 
-input {
+.chat-input textarea {
   flex: 1;
+  min-width: 0;
   height: 40px;
+  max-height: 160px;
   padding: 8px 12px;
+  box-sizing: border-box;
+  resize: none;
+  overflow-y: auto;
   border: none;
   outline: none;
   border-radius: 5px;
   background: transparent;
   color: #f4f4f4;
   font-size: 16px;
+  line-height: 24px;
+  font-family: inherit;
 }
 
-input::placeholder {
+.chat-input textarea::placeholder {
   color: #777;
 }
+
+.chat-input textarea::-webkit-scrollbar {
+  width: 4px;
+}
+
+.chat-input textarea::-webkit-scrollbar-thumb {
+  background: #3a3a3a;
+  border-radius: 10px;
+}
+
+.chat-input textarea::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 
 /* Send Button */
 

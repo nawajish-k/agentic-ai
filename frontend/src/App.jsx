@@ -2,6 +2,7 @@ import React from "react";
 import { RiChatNewLine, RiArrowRightFill } from "@remixicon/react";
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
+import { useRef } from "react";
 
 const App = () => {
   const [input, setInput] = useState("");
@@ -9,6 +10,19 @@ const App = () => {
   const [messages, setMessages] = useState([]);
 
   const [loading, setLoading] = useState(false);
+
+  const inputRef = useRef(null);
+
+  const newChat = () => {
+    setMessages([]);
+    setInput("");
+    setLoading(false);
+
+    if (inputRef.current) {
+      inputRef.current.style.height = "40px";
+      inputRef.current.focus();
+    }
+  };
 
   const sendMessage = async () => {
     if (input.trim() === "" || loading) return;
@@ -58,7 +72,7 @@ const App = () => {
         <div className="icon">✦</div>
         <h1>Agentic AI</h1>
 
-        <button className="new-chat">
+        <button className="new-chat" onClick={newChat}>
           <RiChatNewLine size={20} className="new-chat-icon" />
           <h3>New chat</h3>
         </button>
@@ -99,17 +113,30 @@ const App = () => {
           </div>
 
           <div className="chat-input">
-            <input
-              type="text"
+            <textarea
+              ref={inputRef}
               value={input}
-              onChange={(e) => setInput(e.target.value)}
+              onChange={(e) => {
+                setInput(e.target.value);
+
+                // Reset height first so it can shrink when text is deleted
+                e.target.style.height = "40px";
+
+                // Grow according to content
+                e.target.style.height = `${Math.min(e.target.scrollHeight, 160)}px`;
+              }}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
                   e.preventDefault();
+
                   sendMessage();
+
+                  // Reset after sending
+                  e.target.style.height = "40px";
                 }
               }}
               placeholder="Type here..."
+              rows={1}
             />
             <button
               className="send-button"
