@@ -3,6 +3,7 @@ import { RiChatNewLine, RiArrowRightFill } from "@remixicon/react";
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { useRef } from "react";
+import { useEffect } from "react";
 
 const App = () => {
   const [input, setInput] = useState("");
@@ -12,6 +13,15 @@ const App = () => {
   const [loading, setLoading] = useState(false);
 
   const inputRef = useRef(null);
+
+  const messagesEndRef = useRef(null)
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({
+      behavior: "smooth",
+    })
+  }, [messages])
+  
 
   const newChat = () => {
     setMessages([]);
@@ -81,6 +91,7 @@ const App = () => {
       {/* chat */}
       <div className="chat-container">
         <div className="chat-content">
+
           <div className="messages">
             {messages.length === 0 ? (
               <div className="welcome">
@@ -110,6 +121,7 @@ const App = () => {
                 <p>Thinking...</p>
               </div>
             )}
+            <div ref={messagesEndRef} />
           </div>
 
           <div className="chat-input">
