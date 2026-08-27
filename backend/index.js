@@ -41,39 +41,54 @@ const messages = [
 ]
 
 app.post("/api/chat", async (req, res) => {
-
     try {
-
         const { message } = req.body;
 
         messages.push(
             new HumanMessage(message)
         );
 
-        const result = await agent.invoke({
-            messages,
-        });
+        res.setHeader("Content-Type", "text/plain; charset=utf-8");
+        res.setHeader("Cache-Control", "no-cache");
+        res.setHeader("Transfer-Encoding", "chunked");
 
-        const aiMessage = result.messages[result.messages.length - 1];
-
-        messages.push(
-            new AIMessage(aiMessage.content)
+        const stream = await agent.stream(
+            {
+                messages,
+            },
+            {
+                streamMode: "messages",
+            }
         );
 
-        res.json({
-            response: aiMessage.content,
-        });
+        let aiResponse = "";
+
+        for await (const [chunk] of stream) {
+            if (chunk.text) {
+                aiResponse += chunk.text;
+                res.write(chunk.text);
+            }
+        }
+
+        messages.push(
+            new AIMessage(aiResponse)
+        );
+
+        res.end();
 
     } catch (error) {
 
         console.error(error);
 
-        res.status(500).json({
-            error: "Something went wrong"
-        });
+        if (!res.headersSent) {
+            res.status(500).json({
+                error: "Something went wrong"
+            });
+        } else {
+            res.end();
+        }
 
     }
-
 });
 
 

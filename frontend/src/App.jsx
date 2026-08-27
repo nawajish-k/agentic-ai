@@ -14,14 +14,13 @@ const App = () => {
 
   const inputRef = useRef(null);
 
-  const messagesEndRef = useRef(null)
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({
       behavior: "smooth",
-    })
-  }, [messages])
-  
+    });
+  }, [messages]);
 
   const newChat = () => {
     setMessages([]);
@@ -35,45 +34,81 @@ const App = () => {
   };
 
   const sendMessage = async () => {
-    if (input.trim() === "" || loading) return;
+  if (input.trim() === "" || loading) return;
 
-    setLoading(true);
+  setLoading(true);
 
-    const userMessage = {
-      role: "user",
-      content: input,
-    };
+  const userMessage = {
+    role: "user",
+    content: input,
+  };
 
-    setMessages((prev) => [...prev, userMessage]);
+  setMessages((prev) => [
+    ...prev,
+    userMessage,
+    {
+      role: "assistant",
+      content: "",
+    },
+  ]);
 
-    setInput("");
+  const userInput = input;
 
-    try {
-      const response = await fetch("http://localhost:3000/api/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          message: input,
-        }),
+  setInput("");
+
+  if (inputRef.current) {
+    inputRef.current.style.height = "40px";
+  }
+
+  try {
+    const response = await fetch("http://localhost:3000/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: userInput,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to get response");
+    }
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+
+    let aiResponse = "";
+
+    while (true) {
+      const { value, done } = await reader.read();
+
+      if (done) break;
+
+      const chunk = decoder.decode(value, {
+        stream: true,
       });
 
-      const data = await response.json();
+      aiResponse += chunk;
 
-      setMessages((prev) => [
-        ...prev,
-        {
+      setMessages((prev) => {
+        const updatedMessages = [...prev];
+
+        updatedMessages[updatedMessages.length - 1] = {
           role: "assistant",
-          content: data.response,
-        },
-      ]);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
+          content: aiResponse,
+        };
+
+        return updatedMessages;
+      });
     }
-  };
+
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="container">
@@ -91,7 +126,6 @@ const App = () => {
       {/* chat */}
       <div className="chat-container">
         <div className="chat-content">
-
           <div className="messages">
             {messages.length === 0 ? (
               <div className="welcome">
@@ -115,12 +149,6 @@ const App = () => {
               ))
             )}
 
-            {/* loading indicator */}
-            {loading && (
-              <div className="message assistant-message">
-                <p>Thinking...</p>
-              </div>
-            )}
             <div ref={messagesEndRef} />
           </div>
 
