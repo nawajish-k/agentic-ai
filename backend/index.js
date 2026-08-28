@@ -40,6 +40,20 @@ const messages = [
         `)
 ]
 
+app.post("/api/new-chat", (req, res) => {
+  messages.length = 0;
+
+  messages.push(
+    new SystemMessage(`Your name is Mistral, you are a helpful assistant.
+        current date is ${new Date().toLocaleDateString()}
+        `)
+  );
+
+  res.json({
+    success: true,
+  });
+});
+
 app.post("/api/chat", async (req, res) => {
     try {
         const { message } = req.body;

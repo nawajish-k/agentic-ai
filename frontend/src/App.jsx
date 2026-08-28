@@ -22,93 +22,101 @@ const App = () => {
     });
   }, [messages]);
 
-  const newChat = () => {
-    setMessages([]);
-    setInput("");
-    setLoading(false);
+  const newChat = async () => {
+    if (loading) return;
 
-    if (inputRef.current) {
-      inputRef.current.style.height = "40px";
-      inputRef.current.focus();
+    try {
+      await fetch("http://localhost:3000/api/new-chat", {
+        method: "POST",
+      });
+
+      setMessages([]);
+      setInput("");
+
+      if (inputRef.current) {
+        inputRef.current.style.height = "40px";
+        inputRef.current.focus();
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
   const sendMessage = async () => {
-  if (input.trim() === "" || loading) return;
+    if (input.trim() === "" || loading) return;
 
-  setLoading(true);
+    setLoading(true);
 
-  const userMessage = {
-    role: "user",
-    content: input,
-  };
+    const userMessage = {
+      role: "user",
+      content: input,
+    };
 
-  setMessages((prev) => [
-    ...prev,
-    userMessage,
-    {
-      role: "assistant",
-      content: "",
-    },
-  ]);
-
-  const userInput = input;
-
-  setInput("");
-
-  if (inputRef.current) {
-    inputRef.current.style.height = "40px";
-  }
-
-  try {
-    const response = await fetch("http://localhost:3000/api/chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    setMessages((prev) => [
+      ...prev,
+      userMessage,
+      {
+        role: "assistant",
+        content: "",
       },
-      body: JSON.stringify({
-        message: userInput,
-      }),
-    });
+    ]);
 
-    if (!response.ok) {
-      throw new Error("Failed to get response");
+    const userInput = input;
+
+    setInput("");
+
+    if (inputRef.current) {
+      inputRef.current.style.height = "40px";
     }
 
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-
-    let aiResponse = "";
-
-    while (true) {
-      const { value, done } = await reader.read();
-
-      if (done) break;
-
-      const chunk = decoder.decode(value, {
-        stream: true,
+    try {
+      const response = await fetch("http://localhost:3000/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: userInput,
+        }),
       });
 
-      aiResponse += chunk;
+      if (!response.ok) {
+        throw new Error("Failed to get response");
+      }
 
-      setMessages((prev) => {
-        const updatedMessages = [...prev];
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
 
-        updatedMessages[updatedMessages.length - 1] = {
-          role: "assistant",
-          content: aiResponse,
-        };
+      let aiResponse = "";
 
-        return updatedMessages;
-      });
+      while (true) {
+        const { value, done } = await reader.read();
+
+        if (done) break;
+
+        const chunk = decoder.decode(value, {
+          stream: true,
+        });
+
+        aiResponse += chunk;
+
+        setMessages((prev) => {
+          const updatedMessages = [...prev];
+
+          updatedMessages[updatedMessages.length - 1] = {
+            role: "assistant",
+            content: aiResponse,
+          };
+
+          return updatedMessages;
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
-
-  } catch (error) {
-    console.error(error);
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   return (
     <div className="container">
@@ -117,10 +125,18 @@ const App = () => {
         <div className="icon">✦</div>
         <h1>Agentic AI</h1>
 
-        <button className="new-chat" onClick={newChat}>
-          <RiChatNewLine size={20} className="new-chat-icon" />
-          <h3>New chat</h3>
-        </button>
+        <span className="new-chat-wrapper">
+          <button className="new-chat" onClick={newChat} disabled={loading}>
+            <RiChatNewLine size={20} className="new-chat-icon" />
+            <h3>New chat</h3>
+          </button>
+
+          {loading && (
+            <span className="new-chat-tooltip">
+              Please wait — the current response is still generating.
+            </span>
+          )}
+        </span>
       </div>
 
       {/* chat */}

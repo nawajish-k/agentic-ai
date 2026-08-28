@@ -71,7 +71,6 @@ body {
   display: flex;
   align-items: center;
   gap: 5px;
-  margin-left: auto;
   padding: 5px 10px;
 }
 
@@ -95,6 +94,38 @@ button:hover {
 
 button:active {
   background: #1c1c1c;
+}
+
+.new-chat:disabled {
+  opacity: 0.5;
+}
+
+.new-chat-wrapper {
+  position: relative;
+  margin-left: auto;
+}
+
+.new-chat:disabled {
+  opacity: 0.5;
+}
+
+.new-chat-tooltip {
+  display: none;
+  position: absolute;
+  bottom: -35px;
+  right: 0;
+
+  background: #333;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 100;
+}
+
+.new-chat-wrapper:hover .new-chat-tooltip {
+  display: block;
 }
 
 /* Chat */
