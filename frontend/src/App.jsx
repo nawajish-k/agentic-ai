@@ -1,9 +1,10 @@
 import React from "react";
-import { RiChatNewLine, RiArrowRightFill } from "@remixicon/react";
+import { RiChatNewLine, RiArrowUpLine } from "@remixicon/react";
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { useRef } from "react";
 import { useEffect } from "react";
+import { ThinkingOrb } from "thinking-orbs";
 
 const App = () => {
   const [input, setInput] = useState("");
@@ -160,7 +161,24 @@ const App = () => {
                   key={index}
                 >
                   {" "}
-                  <ReactMarkdown>{message.content}</ReactMarkdown>
+                  <ReactMarkdown
+                    components={{
+                      a: ({ node, ...props }) => (
+                        <a
+                          {...props}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        />
+                      ),
+                      table: ({ node, ...props }) => (
+                        <div className="markdown-table">
+                          <table {...props} />
+                        </div>
+                      ),
+                    }}
+                  >
+                    {message.content}
+                  </ReactMarkdown>
                 </div>
               ))
             )}
@@ -194,13 +212,29 @@ const App = () => {
               placeholder="Type here..."
               rows={1}
             />
-            <button
-              className="send-button"
-              onClick={sendMessage}
-              disabled={loading}
-            >
-              <RiArrowRightFill />
-            </button>
+
+          {/* send button */}
+            {loading ? (
+  <span className="thinking-orbs-wrapper">
+    <div className="thinking-orbs">
+      <div className="thinking-orbs-scale">
+        <ThinkingOrb state="solving" size={64} />
+      </div>
+    </div>
+
+    <span className="thinking-orbs-tooltip">
+      Please wait — the current response is still generating.
+    </span>
+  </span>
+) : (
+  <button
+    className="send-button"
+    onClick={sendMessage}
+  >
+    <RiArrowUpLine />
+  </button>
+)}
+
           </div>
         </div>
       </div>

@@ -47,7 +47,7 @@ body {
 /* Navbar */
 
 .navbar {
-  height: 50px;
+  height: 54px;
   min-height: 50px;
   width: 100%;
   display: flex;
@@ -151,14 +151,15 @@ button:active {
   flex-direction: column;
 }
 
+.welcome {
+  margin-top: 90px;
+  padding: 20px;
+  text-align: center;
+}
+
 .welcome-icon {
   margin-bottom: 10px;
   font-size: 60px;
-}
-
-.welcome {
-  padding: 20px;
-  text-align: center;
 }
 
 .welcome h2 {
@@ -233,6 +234,8 @@ button:active {
 
 /* Send Button */
 
+/* Send Button */
+
 .send-button {
   width: 36px;
   height: 36px;
@@ -245,7 +248,10 @@ button:active {
   background: transparent;
   color: #f4f4f4;
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease, transform 0.1s ease;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.1s ease;
 }
 
 .send-button:hover {
@@ -258,9 +264,55 @@ button:active {
   transform: scale(0.92);
 }
 
-.send-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+.thinking-orbs {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.thinking-orbs-scale {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.thinking-orbs-scale > * {
+  transform: scale(0.5625);
+  transform-origin: center;
+}
+
+.thinking-orbs-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.thinking-orbs-tooltip {
+  display: none;
+  position: absolute;
+  bottom: 44px;
+  right: 0;
+  width: max-content;
+  max-width: 240px;
+  padding: 6px 10px;
+  border-radius: 5px;
+  background: #333;
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.4;
+  white-space: normal;
+  z-index: 100;
+}
+
+.thinking-orbs-wrapper:hover .thinking-orbs-tooltip {
+  display: block;
 }
 
 /* Messages */
@@ -350,6 +402,15 @@ button:active {
   font-weight: 600;
 }
 
+.assistant-message a {
+  color: #7ab7ff;
+  text-decoration: none;
+}
+
+.assistant-message a:hover {
+  text-decoration: underline;
+}
+
 .assistant-message ul,
 .assistant-message ol {
   margin: 8px 0 14px 24px;
@@ -375,6 +436,7 @@ button:active {
   margin: 14px 0;
   padding: 14px;
   overflow-x: auto;
+  border: 1px solid #2d2d2d;
   border-radius: 8px;
   background: #181818;
 }
@@ -382,6 +444,9 @@ button:active {
 .assistant-message pre code {
   padding: 0;
   background: transparent;
+  color: #e5e5e5;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 .assistant-message blockquote {
@@ -390,6 +455,50 @@ button:active {
   border-left: 3px solid #555;
   color: #aaa;
   background: #181818;
+}
+
+.assistant-message blockquote p {
+  margin-bottom: 0;
+  color: #aaa;
+}
+
+.markdown-table {
+  width: 100%;
+  margin: 14px 0;
+  overflow-x: auto;
+}
+
+.assistant-message table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.assistant-message th,
+.assistant-message td {
+  padding: 10px 12px;
+  border: 1px solid #333;
+  text-align: left;
+}
+
+.assistant-message th {
+  background: #242424;
+  color: #fff;
+  font-weight: 600;
+}
+
+.assistant-message td {
+  color: #d8d8d8;
+}
+
+.assistant-message tr:nth-child(even) td {
+  background: #1b1b1b;
+}
+
+.assistant-message hr {
+  margin: 20px 0;
+  border: 0;
+  border-top: 1px solid #333;
 }
 
 /* User Message */
