@@ -1,10 +1,11 @@
 import React from "react";
-import { RiChatNewLine, RiArrowUpLine } from "@remixicon/react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import { useRef } from "react";
-import { useEffect } from "react";
+import remarkGfm from "remark-gfm";
+import { RiArrowUpLine, RiChatNewLine } from "@remixicon/react";
 import { ThinkingOrb } from "thinking-orbs";
+import { BorderBeam } from "border-beam";
+import "./markdown.css";
 
 const App = () => {
   const [input, setInput] = useState("");
@@ -162,7 +163,9 @@ const App = () => {
                 >
                   {" "}
                   <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
                     components={{
+                      // Links
                       a: ({ node, ...props }) => (
                         <a
                           {...props}
@@ -170,9 +173,11 @@ const App = () => {
                           rel="noopener noreferrer"
                         />
                       ),
-                      table: ({ node, ...props }) => (
+
+                      // Tables
+                      table: ({ node, children, ...props }) => (
                         <div className="markdown-table">
-                          <table {...props} />
+                          <table {...props}>{children}</table>
                         </div>
                       ),
                     }}
@@ -186,56 +191,54 @@ const App = () => {
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="chat-input">
-            <textarea
-              ref={inputRef}
-              value={input}
-              onChange={(e) => {
-                setInput(e.target.value);
+          {/* input area */}
+          <BorderBeam size="md" colorVariant="colorful" strength={0.7}>
+            <div className="chat-input">
+              <textarea
+                ref={inputRef}
+                value={input}
+                onChange={(e) => {
+                  setInput(e.target.value);
 
-                // Reset height first so it can shrink when text is deleted
-                e.target.style.height = "40px";
-
-                // Grow according to content
-                e.target.style.height = `${Math.min(e.target.scrollHeight, 160)}px`;
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-
-                  sendMessage();
-
-                  // Reset after sending
+                  // Reset height first so it can shrink when text is deleted
                   e.target.style.height = "40px";
-                }
-              }}
-              placeholder="Type here..."
-              rows={1}
-            />
 
-          {/* send button */}
-            {loading ? (
-  <span className="thinking-orbs-wrapper">
-    <div className="thinking-orbs">
-      <div className="thinking-orbs-scale">
-        <ThinkingOrb state="solving" size={64} />
-      </div>
-    </div>
+                  // Grow according to content
+                  e.target.style.height = `${Math.min(e.target.scrollHeight, 160)}px`;
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
 
-    <span className="thinking-orbs-tooltip">
-      Please wait — the current response is still generating.
-    </span>
-  </span>
-) : (
-  <button
-    className="send-button"
-    onClick={sendMessage}
-  >
-    <RiArrowUpLine />
-  </button>
-)}
+                    sendMessage();
 
-          </div>
+                    // Reset after sending
+                    e.target.style.height = "40px";
+                  }
+                }}
+                placeholder="Type here..."
+                rows={1}
+              />
+
+              {/* send button */}
+              {loading ? (
+                <span className="thinking-orbs-wrapper">
+                  <div className="thinking-orbs">
+                    <div className="thinking-orbs-scale">
+                      <ThinkingOrb state="solving" size={64} />
+                    </div>
+                  </div>
+                </span>
+              ) : (
+                <button
+                  className={`send-button ${input.trim() ? "has-text" : ""}`}
+                  onClick={sendMessage}
+                >
+                  <RiArrowUpLine size={22} />
+                </button>
+              )}
+            </div>
+          </BorderBeam>
         </div>
       </div>
     </div>

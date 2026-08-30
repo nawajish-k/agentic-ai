@@ -1,0 +1,565 @@
+/* MARKDOWN / AI RESPONSE STYLES */
+
+/* ---------- Base Response ---------- */
+
+.assistant-message {
+  width: 100%;
+  max-width: 75%;
+  margin-right: auto;
+  padding: 4px 0;
+  color: #e5e5e5;
+  font-size: 15px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+/* ---------- Headings ---------- */
+
+.assistant-message h1,
+.assistant-message h2,
+.assistant-message h3,
+.assistant-message h4,
+.assistant-message h5,
+.assistant-message h6 {
+  color: #f5f5f5;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+}
+
+.assistant-message h1 {
+  margin: 28px 0 14px;
+  font-size: 28px;
+}
+
+.assistant-message h2 {
+  margin: 26px 0 12px;
+  font-size: 22px;
+}
+
+.assistant-message h3 {
+  margin: 22px 0 10px;
+  font-size: 18px;
+}
+
+.assistant-message h4 {
+  margin: 18px 0 8px;
+  font-size: 16px;
+}
+
+.assistant-message h5,
+.assistant-message h6 {
+  margin: 16px 0 8px;
+  font-size: 15px;
+}
+
+.assistant-message > h1:first-child,
+.assistant-message > h2:first-child,
+.assistant-message > h3:first-child,
+.assistant-message > h4:first-child {
+  margin-top: 4px;
+}
+
+/* ---------- Paragraphs ---------- */
+
+.assistant-message p {
+  margin: 0 0 15px;
+  color: #dcdcdc;
+  font-size: 15px;
+  line-height: 1.72;
+}
+
+.assistant-message p:last-child {
+  margin-bottom: 0;
+}
+
+/* ---------- Bold ---------- */
+
+.assistant-message strong {
+  color: #f5f5f5;
+  font-weight: 650;
+}
+
+/* ---------- Italic ---------- */
+
+.assistant-message em {
+  color: #d8d8d8;
+}
+
+/* ---------- Links ---------- */
+
+.assistant-message a {
+  color: #8ab4f8;
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(138, 180, 248, 0.3);
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.assistant-message a:hover {
+  color: #b7d4ff;
+  border-bottom-color: #b7d4ff;
+  background: rgba(138, 180, 248, 0.08);
+  border-radius: 3px;
+}
+
+.assistant-message a:active {
+  color: #ffffff;
+}
+
+/* ---------- Lists ---------- */
+
+.assistant-message ul,
+.assistant-message ol {
+  margin: 8px 0 18px;
+  padding-left: 26px;
+}
+
+.assistant-message ul {
+  list-style-type: disc;
+}
+
+.assistant-message ol {
+  list-style-type: decimal;
+}
+
+.assistant-message li {
+  margin: 5px 0;
+  padding-left: 4px;
+  color: #dcdcdc;
+  line-height: 1.65;
+}
+
+.assistant-message li::marker {
+  color: #8b8b8b;
+}
+
+.assistant-message li > p {
+  margin: 0;
+}
+
+.assistant-message li ul,
+.assistant-message li ol {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+/* ---------- Inline Code ---------- */
+
+.assistant-message :not(pre) > code {
+  display: inline;
+  padding: 2px 6px;
+  border: 1px solid #333333;
+  border-radius: 5px;
+  background: #1f1f1f;
+  color: #f1f1f1;
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    "Liberation Mono",
+    Menlo,
+    monospace;
+  font-size: 0.88em;
+  white-space: break-spaces;
+}
+
+/* ---------- Code Blocks ---------- */
+
+.assistant-message pre {
+  width: 100%;
+  margin: 18px 0;
+  padding: 16px 18px;
+  overflow-x: auto;
+  box-sizing: border-box;
+
+  border: 1px solid #303030;
+  border-radius: 10px;
+
+  background: #171717;
+
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.02);
+
+  scrollbar-width: thin;
+  scrollbar-color: #444444 transparent;
+}
+
+.assistant-message pre::-webkit-scrollbar {
+  height: 6px;
+}
+
+.assistant-message pre::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.assistant-message pre::-webkit-scrollbar-thumb {
+  background: #3d3d3d;
+  border-radius: 10px;
+}
+
+.assistant-message pre::-webkit-scrollbar-thumb:hover {
+  background: #555555;
+}
+
+.assistant-message pre code {
+  display: block;
+  padding: 0;
+
+  border: 0;
+  border-radius: 0;
+
+  background: transparent;
+  color: #e6e6e6;
+
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    "Liberation Mono",
+    Menlo,
+    monospace;
+
+  font-size: 13.5px;
+  line-height: 1.65;
+
+  white-space: pre;
+}
+
+/* ---------- Blockquotes ---------- */
+
+.assistant-message blockquote {
+  margin: 16px 0;
+  padding: 10px 16px;
+
+  border-left: 3px solid #666666;
+  border-radius: 0 7px 7px 0;
+
+  background: #191919;
+  color: #aaaaaa;
+}
+
+.assistant-message blockquote p {
+  margin: 0;
+  color: #bdbdbd;
+}
+
+.assistant-message blockquote strong {
+  color: #e5e5e5;
+}
+
+/* ---------- Tables ---------- */
+
+.markdown-table {
+  width: 100%;
+  margin: 20px 0;
+  overflow-x: auto;
+
+  border: 1px solid #303030;
+  border-radius: 10px;
+
+  background: #151515;
+
+  scrollbar-width: thin;
+  scrollbar-color: #444444 transparent;
+}
+
+.markdown-table::-webkit-scrollbar {
+  height: 6px;
+}
+
+.markdown-table::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.markdown-table::-webkit-scrollbar-thumb {
+  background: #444444;
+  border-radius: 10px;
+}
+
+.markdown-table::-webkit-scrollbar-thumb:hover {
+  background: #555555;
+}
+
+.assistant-message table {
+  width: 100%;
+  min-width: 620px;
+
+  border-collapse: separate;
+  border-spacing: 0;
+
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+
+/* ---------- Table Header ---------- */
+
+.assistant-message thead th {
+  padding: 12px 14px;
+
+  border-bottom: 1px solid #383838;
+
+  background: #202020;
+  color: #f5f5f5;
+
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+
+  white-space: nowrap;
+}
+
+.assistant-message thead th:first-child {
+  border-top-left-radius: 9px;
+}
+
+.assistant-message thead th:last-child {
+  border-top-right-radius: 9px;
+}
+
+/* ---------- Table Body ---------- */
+
+.assistant-message tbody td {
+  padding: 11px 14px;
+
+  border-bottom: 1px solid #292929;
+
+  color: #d2d2d2;
+
+  vertical-align: top;
+  text-align: left;
+}
+
+/* ---------- Last Table Row ---------- */
+
+.assistant-message tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ---------- Alternating Rows ---------- */
+
+.assistant-message tbody tr:nth-child(even) td {
+  background: #191919;
+}
+
+.assistant-message tbody tr:nth-child(odd) td {
+  background: #151515;
+}
+
+/* ---------- Table Hover ---------- */
+
+.assistant-message tbody tr {
+  transition: background 0.15s ease;
+}
+
+.assistant-message tbody tr:hover td {
+  background: #202020;
+}
+
+/* ---------- Strong Text Inside Tables ---------- */
+
+.assistant-message td strong,
+.assistant-message th strong {
+  color: #f5f5f5;
+  font-weight: 600;
+}
+
+/* ---------- Links Inside Tables ---------- */
+
+.assistant-message table a {
+  color: #8ab4f8;
+}
+
+/* ---------- Horizontal Rule ---------- */
+
+.assistant-message hr {
+  height: 1px;
+  margin: 26px 0;
+
+  border: 0;
+
+  background: #303030;
+}
+
+/* ---------- Images ---------- */
+
+.assistant-message img {
+  display: block;
+
+  max-width: 100%;
+  height: auto;
+
+  margin: 16px 0;
+
+  border: 1px solid #303030;
+  border-radius: 10px;
+}
+
+/* ---------- Keyboard ---------- */
+
+.assistant-message kbd {
+  display: inline-block;
+
+  padding: 2px 6px;
+
+  border: 1px solid #3a3a3a;
+  border-bottom-width: 2px;
+  border-radius: 5px;
+
+  background: #242424;
+  color: #e5e5e5;
+
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    "Liberation Mono",
+    Menlo,
+    monospace;
+
+  font-size: 0.85em;
+  line-height: 1.4;
+
+  white-space: nowrap;
+}
+
+/* ---------- Deleted / Strikethrough ---------- */
+
+.assistant-message del {
+  color: #999999;
+  text-decoration: line-through;
+}
+
+/* ---------- Mark / Highlight ---------- */
+
+.assistant-message mark {
+  padding: 1px 3px;
+
+  border-radius: 3px;
+
+  background: #5b4b00;
+  color: #ffffff;
+}
+
+/* ---------- Superscript / Subscript ---------- */
+
+.assistant-message sup,
+.assistant-message sub {
+  font-size: 0.75em;
+  line-height: 0;
+}
+
+/* ---------- Definition / Details ---------- */
+
+.assistant-message details {
+  margin: 14px 0;
+  padding: 10px 14px;
+
+  border: 1px solid #303030;
+  border-radius: 8px;
+
+  background: #191919;
+}
+
+.assistant-message summary {
+  cursor: pointer;
+
+  color: #e5e5e5;
+  font-weight: 600;
+}
+
+.assistant-message details p {
+  margin-top: 10px;
+}
+
+/* ---------- First / Last Child Cleanup ---------- */
+
+.assistant-message > :first-child {
+  margin-top: 0;
+}
+
+.assistant-message > :last-child {
+  margin-bottom: 0;
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 768px) {
+  .assistant-message {
+    max-width: 100%;
+    font-size: 15px;
+  }
+
+  .assistant-message h1 {
+    font-size: 24px;
+    margin-top: 24px;
+  }
+
+  .assistant-message h2 {
+    font-size: 20px;
+    margin-top: 22px;
+  }
+
+  .assistant-message h3 {
+    font-size: 17px;
+    margin-top: 20px;
+  }
+
+  .assistant-message p {
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .assistant-message ul,
+  .assistant-message ol {
+    padding-left: 22px;
+  }
+
+  .assistant-message pre {
+    margin: 15px 0;
+    padding: 14px;
+    border-radius: 8px;
+  }
+
+  .assistant-message pre code {
+    font-size: 12.5px;
+  }
+
+  .assistant-message table {
+    min-width: 560px;
+  }
+
+  .assistant-message thead th,
+  .assistant-message tbody td {
+    padding: 9px 11px;
+  }
+}
+
+/* ---------- Small Mobile ---------- */
+
+@media (max-width: 480px) {
+  .assistant-message {
+    font-size: 14px;
+  }
+
+  .assistant-message h1 {
+    font-size: 22px;
+  }
+
+  .assistant-message h2 {
+    font-size: 19px;
+  }
+
+  .assistant-message h3 {
+    font-size: 16px;
+  }
+
+  .assistant-message pre {
+    padding: 12px;
+  }
+
+  .assistant-message pre code {
+    font-size: 12px;
+  }
+}
