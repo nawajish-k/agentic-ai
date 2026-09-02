@@ -81,17 +81,22 @@ body {
   border: 1px solid #242424;
   border-radius: 5px;
   background: #242424;
-  color: #fff;
+  color: #f4f4f4;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease;
 }
 
 .new-chat:hover {
-  background: #303030;
+  background: #f4f4f4;
+  color: #000;
+  transform: scale(1.05);
 }
 
 .new-chat:active {
-  background: #1c1c1c;
+  transform: scale(0.95);
 }
 
 
@@ -146,29 +151,99 @@ body {
   flex-direction: column;
 }
 
+.chat-content.empty-chat {
+  justify-content: center;
+}
+
+.chat-content.empty-chat .messages {
+  flex: 0;
+  overflow: visible;
+  padding: 0;
+  margin-top: 150px;
+}
+
+.empty-chat .welcome {
+  margin-top: -230px;
+}
+
 .welcome {
   margin-top: 90px;
   padding: 20px;
   text-align: center;
+  animation: welcomeFade 0.7s ease-out;
+}
+
+@keyframes welcomeFade {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .welcome-icon {
   margin-bottom: 10px;
   font-size: 60px;
+  animation: iconFloat 2.5s ease-in-out infinite;
+}
+
+@keyframes iconFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
 }
 
 .welcome h2 {
   font-size: 30px;
   font-weight: 500;
   margin-bottom: 10px;
+  animation: welcomeText 0.7s ease-out 0.15s both;
 }
 
 .welcome p {
   font: italic 18px Arial, sans-serif;
   color: #aaa;
+  animation: welcomeText 0.7s ease-out 0.3s both;
+}
+
+@keyframes welcomeText {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Chat Input */
+
+.chat{
+  animation: welcomeChat 1.8s ease-out 0.15s both;
+}
+
+@keyframes welcomeChat {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 .chat-input {
   width: 100%;

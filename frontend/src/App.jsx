@@ -143,8 +143,9 @@ const App = () => {
 
       {/* chat */}
       <div className="chat-container">
-        <div className="chat-content">
+        <div className={`chat-content ${messages.length === 0 ? "empty-chat" : ""}`}>
           <div className="messages">
+            
             {messages.length === 0 ? (
               <div className="welcome">
                 <div className="welcome-icon">✦</div>
@@ -192,7 +193,9 @@ const App = () => {
           </div>
 
           {/* input area */}
-          <BorderBeam size="md" colorVariant="colorful" strength={0.7}>
+          <div className="chat">
+
+          <BorderBeam className="beam" size="md" colorVariant="colorful" strength={0.7}>
             <div className="chat-input">
               <textarea
                 ref={inputRef}
@@ -239,6 +242,7 @@ const App = () => {
               )}
             </div>
           </BorderBeam>
+         </div>
         </div>
       </div>
     </div>
